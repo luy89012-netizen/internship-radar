@@ -8,6 +8,9 @@
  * DEEPSEEK_API_KEY 从 Vercel 环境变量读取
  */
 
+// 声明 Edge Runtime 全局
+declare const process: { env: Record<string, string | undefined> };
+
 export const config = { runtime: 'edge' };
 
 const CATEGORY_MAP = {
