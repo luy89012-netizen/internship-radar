@@ -5,7 +5,6 @@ import {
   Form, Select, Checkbox, Space, Divider, Row, Col,
 } from 'antd';
 import { ThunderboltFilled, LoadingOutlined, EditOutlined } from '@ant-design/icons';
-import { supabase } from '../lib/supabase';
 import { parseJobText } from '../lib/parseJob';
 import { CATEGORIES, CITIES } from '../lib/constants';
 
@@ -50,46 +49,30 @@ export default function QuickAddPage() {
   async function handleSubmit(values: any) {
     setSubmitting(true);
     try {
-      let contributorId: number | null = null;
-      if (values.contributor_name) {
-        const { data: existing } = await supabase
-          .from('contributors')
-          .select('id')
-          .eq('name', values.contributor_name)
-          .maybeSingle();
+      const res = await fetch('/api/submit-job', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          password: SHARED_PASSWORD,
+          contributor_name: values.contributor_name,
+          payload: {
+            title: values.title,
+            company: values.company,
+            city: values.city,
+            is_remote: values.is_remote,
+            category: values.category,
+            description: values.description,
+            requirements: values.requirements,
+            salary: values.salary,
+            duration: values.duration,
+            source_url: values.source_url,
+          },
+        }),
+      });
 
-        if (existing) {
-          contributorId = existing.id;
-        } else {
-          const { data: created } = await supabase
-            .from('contributors')
-            .insert({ name: values.contributor_name })
-            .select('id')
-            .single();
-          contributorId = created?.id || null;
-        }
-      }
-
-      const payload = {
-        title: values.title,
-        company: values.company,
-        city: values.city || null,
-        is_remote: values.is_remote || false,
-        category: values.category || null,
-        description: values.description || null,
-        requirements: values.requirements || null,
-        salary: values.salary || null,
-        duration: values.duration || null,
-        source: 'manual',
-        source_url: values.source_url || null,
-        external_id: `manual_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
-        posted_at: new Date().toISOString(),
-        contributor_id: contributorId,
-      };
-
-      const { error } = await supabase.from('internships').insert(payload);
-      if (error) {
-        message.error('提交失败：' + error.message);
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        message.error('提交失败：' + (data.error || `HTTP ${res.status}`));
         return;
       }
 
