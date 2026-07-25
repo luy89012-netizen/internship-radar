@@ -1,0 +1,18 @@
+# dependencies
+node_modules/
+dist/
+dist-standalone/
+
+# env (敏感信息，不进 git)
+.env
+.env.local
+.env.*.local
+
+# editor
+.vscode/
+.idea/
+.DS_Store
+
+# logs
+*.log
+npm-debug.log*
