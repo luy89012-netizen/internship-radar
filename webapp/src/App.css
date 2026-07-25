@@ -1,0 +1,24 @@
+body {
+  margin: 0;
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #faf9f7;
+  color: #2d3f2b;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #5c7f4f;
+}
+
+.ant-card {
+  border-radius: 8px !important;
+  border: 1px solid #ebe7e0 !important;
+}
+
+.ant-menu-horizontal {
+  border-bottom: none !important;
+}
