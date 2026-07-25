@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
 import SubmitPage from './pages/SubmitPage';
+import QuickAddPage from './pages/QuickAddPage';
 import './App.css';
 
 const { Header, Content, Footer } = Layout;
@@ -13,6 +14,7 @@ function AppShell() {
   const location = useLocation();
   const active = location.pathname === '/' ? 'home'
     : location.pathname.startsWith('/list') ? 'list'
+    : location.pathname.startsWith('/quick') ? 'quick'
     : location.pathname.startsWith('/submit') ? 'submit'
     : 'home';
 
@@ -41,7 +43,8 @@ function AppShell() {
           items={[
             { key: 'home', label: <Link to="/">首页</Link> },
             { key: 'list', label: <Link to="/list">全部岗位</Link> },
-            { key: 'submit', label: <Link to="/submit">提交岗位</Link> },
+            { key: 'quick', label: <Link to="/quick">⚡ AI 快速录入</Link> },
+            { key: 'submit', label: <Link to="/submit">手动录入</Link> },
           ]}
         />
       </Header>
@@ -50,6 +53,7 @@ function AppShell() {
           <Route path="/" element={<HomePage />} />
           <Route path="/list" element={<ListPage />} />
           <Route path="/detail/:id" element={<DetailPage />} />
+          <Route path="/quick" element={<QuickAddPage />} />
           <Route path="/submit" element={<SubmitPage />} />
         </Routes>
       </Content>
