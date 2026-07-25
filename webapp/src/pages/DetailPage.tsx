@@ -4,6 +4,7 @@ import { Card, Descriptions, Tag, Typography, Spin, Empty, Button, Space, Divide
 import { ArrowLeftOutlined, LinkOutlined } from '@ant-design/icons';
 import { supabase, type Internship } from '../lib/supabase';
 import { getCategoryColor, getSourceIcon, getSourceLabel } from '../lib/constants';
+import ReviewSection from '../components/ReviewSection';
 import dayjs from 'dayjs';
 
 const { Title, Paragraph, Text } = Typography;
@@ -134,6 +135,17 @@ export default function DetailPage() {
           )}
         </Space>
       </Card>
+
+      <div style={{ marginTop: 16 }}>
+        <ReviewSection
+          internshipId={item.id}
+          title="本岗位评论"
+        />
+        <ReviewSection
+          companyName={item.company}
+          title={`「${item.company}」相关评论（覆盖公司所有岗位）`}
+        />
+      </div>
     </div>
   );
 }
